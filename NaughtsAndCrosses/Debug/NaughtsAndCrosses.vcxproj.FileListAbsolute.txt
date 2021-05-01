@@ -1,0 +1,2 @@
+C:\Users\Eliah\Desktop\Repos\ADS naughtsAndCrosses\ADS-Final\NaughtsAndCrosses\Debug\NaughtsAndCrosses.exe
+C:\Users\Eliah\Desktop\Repos\ADS naughtsAndCrosses\ADS-Final\NaughtsAndCrosses\Debug\NaughtsAndCrosses.pdb
