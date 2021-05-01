@@ -46,10 +46,10 @@ public:
 	bool checkForClick(SDL_Event& event, char type);
 	bool checkForWin(char type);
 	bool checkIfAnyPlacesFree();
-
+	//DRAW EVERYTHING TO SCREEN
 	void draw();
 
-	//MINIMAX STUFF
+	//MINIMAX FUNCTIONS
 	int evaluate();
 	//recursive function
 	int minimax(int depth, bool isMax);

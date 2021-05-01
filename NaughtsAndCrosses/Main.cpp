@@ -1,11 +1,12 @@
 //ADS FINAL ASSESSMENT ELIAH SMITH
-//TIC TAC TOE GAME USING MINIMAX AI ALGORITHM FOR COMPUTER CONTROLLED PLAYED
+//TIC TAC TOE GAME USING MINIMAX AI ALGORITHM FOR COMPUTER CONTROLLED PLAYER
 //REPO:
 //
 
 #include <iostream>
 #include <string>
 #include <SDL.h>
+#include "GameBoard.h"
 
 using namespace std;
 
@@ -18,9 +19,11 @@ int main(int argc, char** argv)
 		system("pause");
 		return 1;
 	}
+
 	//create window for game screen
 	SDL_Window* window = SDL_CreateWindow("gameScreen", SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED, 1024, 768, SDL_WINDOW_SHOWN);
+
 	//window error
 	if (window == NULL)
 	{
@@ -29,9 +32,11 @@ int main(int argc, char** argv)
 		system("pause");
 		return 1;
 	}
+
 	//renderer to draw the game to game screen
 	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1,
 		SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
 	//renderer error so destroy the window and quit
 	if (renderer == NULL)
 	{
@@ -41,6 +46,9 @@ int main(int argc, char** argv)
 		system("pause");
 		return 1;
 	}
+
+	//Create GameBoard
+	GameBoard gameBoard(renderer);
 
 	//what to render
 	bool quit = false;
@@ -62,12 +70,25 @@ int main(int argc, char** argv)
 				{
 					quit = true;
 				}
+				if (e.key.keysym.scancode == SDL_SCANCODE_RETURN)
+				{
+					gameBoard.clearBoard();
+				}
+			}
+
+			if (gameBoard.checkForClick(e, GameBoard::CROSS))
+			{
+				//ADD AI LOGIC HERE
 			}
 		}
+
 		//uses rgba to render background colour to screen
 		//i chose an almost blackcolor
 		SDL_SetRenderDrawColor(renderer, 15, 15, 15, 255);
 		SDL_RenderClear(renderer);
+
+		//draw gameboard
+		gameBoard.draw();
 
 		//swaps the buffers
 		SDL_RenderPresent(renderer);
