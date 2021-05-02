@@ -249,7 +249,87 @@ int GameBoard::minimax(int depth, bool isMax)
 
 int GameBoard::minimax(int depth, bool isMax, int alpha, int beta)
 {
-	return 0;
+	minimaxCount++;
+	int score = evaluate();
+
+	//if maximiser has won the game, return his/her evaluate score
+	if (score == 10)
+		return score;
+	//if minimiser has won, do the same
+	if (score == -10)
+		return score;
+	//if no winner and no movesa return 0
+	if (checkIfAnyPlacesFree() == false)
+		return 0;
+
+	bool breakLoops = false;
+
+	//If this is maximisers move
+	if (isMax)
+	{
+		int best = -1000;
+
+		for (int x = 0; x < 3; x++)
+		{
+			for (int y = 0; y < 3; y++)
+			{
+				//check if cell is empty
+				if (board[x][y] == BLANK)
+				{
+					//make the move
+					board[x][y] = player;
+
+					//call minimax
+					best = max(best, minimax(depth + 1, !isMax, alpha, beta));
+
+					//undo move this is just checking
+					board[x][y] == BLANK;
+
+					alpha = max(alpha, best);
+					if (beta <= alpha)
+						breakLoops = true;
+
+					if (breakLoops)
+						break;
+				}
+				if (breakLoops)
+					break;
+			}
+		}
+		return best;
+	}
+	else //minimisers turn
+	{
+		int best = 1000;
+		for (int x = 0; x < 3; x++)
+		{
+			for (int y = 0; y < 3; y++)
+			{
+				//check if cell is empty
+				if (board[x][y] == BLANK)
+				{
+					//make the move
+					board[x][y] = opponent;
+
+					//call minimax
+					best = min(best, minimax(depth + 1, !isMax, alpha, beta));
+
+					//undo move this is just checking
+					board[x][y] == BLANK;
+
+					beta = min(beta, best);
+					if (beta <= alpha)
+						breakLoops = true;
+
+					if (breakLoops)
+						break;
+				}
+				if (breakLoops)
+					break;
+			}
+		}
+		return best;
+	}
 }
 
 Move GameBoard::findBestMove(char type)
@@ -277,7 +357,7 @@ Move GameBoard::findBestMove(char type)
 				//make move
 				board[x][y] = type;
 
-				int moveVal = minimax(0, !isMaximiser);
+				int moveVal = minimax(0, !isMaximiser, -1000, 1000);
 
 				board[x][y] = BLANK; //undo the move
 
@@ -304,4 +384,5 @@ Move GameBoard::findBestMove(char type)
 	cout << "The value of the best move is" << bestVal << endl;
 	cout << "Number of minimaxs run" << minimaxCount << endl;
 	
+	return bestMove;
 }

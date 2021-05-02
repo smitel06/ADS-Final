@@ -79,6 +79,10 @@ int main(int argc, char** argv)
 			if (gameBoard.checkForClick(e, GameBoard::CROSS))
 			{
 				Move aiMove = gameBoard.findBestMove(gameBoard.opponent);
+				if (aiMove.row != -1 && aiMove.col != -1)
+				{
+					gameBoard.setTile(gameBoard.opponent, aiMove.row, aiMove.col);
+				}
 
 			}
 		}
