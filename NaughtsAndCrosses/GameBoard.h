@@ -25,6 +25,7 @@ public:
 	SDL_Renderer* renderer;
 	SDL_Texture* blank, * cross, * naught;
 
+
 	//size of board
 	char board[3][3];
 	//height and width

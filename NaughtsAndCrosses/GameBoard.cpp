@@ -16,6 +16,7 @@ GameBoard::GameBoard(SDL_Renderer* renderer)
 	clearBoard();
 }
 
+//destructor
 GameBoard::~GameBoard()
 {
 	SDL_DestroyTexture(blank);
@@ -36,6 +37,7 @@ void GameBoard::clearBoard()
 	}
 }
 
+//function sets tile to the gameboard
 bool GameBoard::setTile(char type, int x, int y)
 {
 	//if x,y is on board, try and set tile
@@ -89,6 +91,7 @@ bool GameBoard::checkForClick(SDL_Event& event, char type)
 		}
 		
 	}
+
  	return false;
 }
 
@@ -135,8 +138,7 @@ bool GameBoard::checkIfAnyPlacesFree()
 }
 
 void GameBoard::draw()
-{
-	for (int x = 0; x < 3; x++)
+{	for (int x = 0; x < 3; x++)
 	{
 		for (int y = 0; y < 3; y++)
 		{
@@ -148,15 +150,15 @@ void GameBoard::draw()
 			drawRect.h = tileSize;
 
 			//draws naughts and crosses onto board
-			if (board[x][x] == BLANK)
+			if (board[x][y] == BLANK)
 			{
 				SDL_RenderCopy(renderer, blank, NULL, &drawRect);
 			}
-			if (board[x][x] == CROSS)
+			if (board[x][y] == CROSS)
 			{
 				SDL_RenderCopy(renderer, cross, NULL, &drawRect);
 			}
-			if (board[x][x] == NAUGHT)
+			if (board[x][y] == NAUGHT)
 			{
 				SDL_RenderCopy(renderer, naught, NULL, &drawRect);
 			}
@@ -164,14 +166,85 @@ void GameBoard::draw()
 	}
 }
 
+//player is maximiser (+10 points for winning)
+//opponent is minimiser(-10 points for winning)
+//0 for no wins or draw
 int GameBoard::evaluate()
 {
-	return 0;
+	if (checkForWin(player))
+		return 10;
+	if (checkForWin(opponent))
+		return -10;
+
+	return 0;//no winners
 }
 
+//minimax is a recursive function that explores 
+//all posible game playouts from current board
 int GameBoard::minimax(int depth, bool isMax)
 {
-	return 0;
+	minimaxCount++;
+	int score = evaluate();
+
+	//if maximiser has won the game, return his/her evaluate score
+	if (score == 10)
+		return score;
+	//if minimiser has won, do the same
+	if (score == -10)
+		return score;
+	//if no winner and no movesa return 0
+	if (checkIfAnyPlacesFree() == false)
+		return 0;
+
+	//If this is maximisers move
+	if (isMax)
+	{
+		int best = -1000;
+
+		for (int x = 0; x < 3; x++)
+		{
+			for (int y = 0; y < 3; y++)
+			{
+				//check if cell is empty
+				if (board[x][y] == BLANK)
+				{
+					//make the move
+					board[x][y] = player;
+
+					//call minimax
+					best = max(best, minimax(depth + 1, !isMax));
+
+					//undo move this is just checking
+					board[x][y] == BLANK;
+
+				}
+			}
+		}
+		return best;
+	}
+	else //minimisers turn
+	{
+		int best = 1000;
+		for (int x = 0; x < 3; x++)
+		{
+			for (int y = 0; y < 3; y++)
+			{
+				//check if cell is empty
+				if (board[x][y] == BLANK)
+				{
+					//make the move
+					board[x][y] = opponent;
+
+					//call minimax
+					best = min(best, minimax(depth + 1, !isMax));
+
+					//undo move this is just checking
+					board[x][y] == BLANK;
+				}
+			}
+		}
+		return best;
+	}
 }
 
 int GameBoard::minimax(int depth, bool isMax, int alpha, int beta)
@@ -181,5 +254,54 @@ int GameBoard::minimax(int depth, bool isMax, int alpha, int beta)
 
 Move GameBoard::findBestMove(char type)
 {
-	return Move();
+	minimaxCount = 0;
+
+	bool isMaximiser = true;//if type is equal to player
+	if (type == opponent)
+		isMaximiser = false;
+	int bestVal = -1000;
+	if (!isMaximiser)
+		bestVal = 1000;
+
+	Move bestMove;
+	bestMove.row = -1;
+	bestMove.col = -1;
+
+	for (int x = 0; x < 3; x++)
+	{
+		for (int y = 0; y < 3; y++)
+		{
+			//check if cell is empty
+			if (board[x][y] == BLANK)
+			{
+				//make move
+				board[x][y] = type;
+
+				int moveVal = minimax(0, !isMaximiser);
+
+				board[x][y] = BLANK; //undo the move
+
+				//MAXIMISER - is this move better then previously computed ones
+				if (isMaximiser && moveVal > bestVal)
+				{
+					bestMove.row = x;
+					bestMove.col = y;
+					bestVal = moveVal;
+				}
+				//MINIMISER
+				if (!isMaximiser && moveVal > bestVal)
+				{
+					bestMove.row = x;
+					bestMove.col = y;
+					bestVal = moveVal;
+				}
+
+
+			}
+		}
+	}
+
+	cout << "The value of the best move is" << bestVal << endl;
+	cout << "Number of minimaxs run" << minimaxCount << endl;
+	
 }

@@ -78,7 +78,8 @@ int main(int argc, char** argv)
 
 			if (gameBoard.checkForClick(e, GameBoard::CROSS))
 			{
-				//ADD AI LOGIC HERE
+				Move aiMove = gameBoard.findBestMove(gameBoard.opponent);
+
 			}
 		}
 
