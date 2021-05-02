@@ -1,6 +1,6 @@
 ﻿  GameBoard.cpp
 C:\Users\Eliah\Desktop\Repos\ADS naughtsAndCrosses\ADS-Final\NaughtsAndCrosses\GameBoard.cpp(218,18): warning C4553: '==': result of expression not used; did you intend '='?
 C:\Users\Eliah\Desktop\Repos\ADS naughtsAndCrosses\ADS-Final\NaughtsAndCrosses\GameBoard.cpp(242,18): warning C4553: '==': result of expression not used; did you intend '='?
-  Main.cpp
-  Generating Code...
+C:\Users\Eliah\Desktop\Repos\ADS naughtsAndCrosses\ADS-Final\NaughtsAndCrosses\GameBoard.cpp(286,18): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\Eliah\Desktop\Repos\ADS naughtsAndCrosses\ADS-Final\NaughtsAndCrosses\GameBoard.cpp(318,18): warning C4553: '==': result of expression not used; did you intend '='?
   NaughtsAndCrosses.vcxproj -> C:\Users\Eliah\Desktop\Repos\ADS naughtsAndCrosses\ADS-Final\NaughtsAndCrosses\Debug\NaughtsAndCrosses.exe

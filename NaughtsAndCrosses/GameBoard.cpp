@@ -71,8 +71,8 @@ void GameBoard::getTileXYBasedOnPixlXY(int pixelX, int pixelY, int& tileX, int& 
 	pixelY = pixelY - boardY;
 	
 	//divide pixel values by tilesize to get spot on the board
-	tileX = tileX / tileSize;
-	tileY = tileY / tileSize;
+	tileX = pixelX / tileSize;
+	tileY = pixelY / tileSize;
 }
 
 bool GameBoard::checkForClick(SDL_Event& event, char type)
@@ -357,7 +357,7 @@ Move GameBoard::findBestMove(char type)
 				//make move
 				board[x][y] = type;
 
-				int moveVal = minimax(0, !isMaximiser, -1000, 1000);
+				int moveVal = minimax(0, !isMaximiser);
 
 				board[x][y] = BLANK; //undo the move
 
@@ -369,7 +369,7 @@ Move GameBoard::findBestMove(char type)
 					bestVal = moveVal;
 				}
 				//MINIMISER
-				if (!isMaximiser && moveVal > bestVal)
+				if (!isMaximiser && moveVal < bestVal)
 				{
 					bestMove.row = x;
 					bestMove.col = y;
@@ -381,8 +381,8 @@ Move GameBoard::findBestMove(char type)
 		}
 	}
 
-	cout << "The value of the best move is" << bestVal << endl;
-	cout << "Number of minimaxs run" << minimaxCount << endl;
+	cout << "The value of the best move is " << bestVal << endl;
+	cout << "Number of minimaxs run " << minimaxCount << endl;
 	
 	return bestMove;
 }
