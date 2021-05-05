@@ -215,7 +215,7 @@ int GameBoard::minimax(int depth, bool isMax)
 					best = max(best, minimax(depth + 1, !isMax));
 
 					//undo move this is just checking
-					board[x][y] == BLANK;
+					board[x][y] = BLANK;
 
 				}
 			}
@@ -239,7 +239,7 @@ int GameBoard::minimax(int depth, bool isMax)
 					best = min(best, minimax(depth + 1, !isMax));
 
 					//undo move this is just checking
-					board[x][y] == BLANK;
+					board[x][y] = BLANK;
 				}
 			}
 		}

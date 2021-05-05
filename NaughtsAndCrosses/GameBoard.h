@@ -29,9 +29,9 @@ public:
 	//size of board
 	char board[3][3];
 	//height and width
-	int boardX = 500, boardY = 100;
+	int boardX = 275, boardY = 150;
 	//size of tiles
-	int tileSize = 50;
+	int tileSize = 150;
 
 	//The pieces for each player
 	char player = CROSS, opponent = NAUGHT;
